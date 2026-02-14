@@ -22,8 +22,34 @@ Design Choices
 from __future__ import annotations
 
 import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
 from models.resource import WaterResource, EnergyResource, WasteResource
 from models.consumer import Consumer
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Lottie Animation Loader
+# ══════════════════════════════════════════════════════════════════════════════
+def load_lottie_url(url: str):
+    """Load a Lottie animation from a URL."""
+    try:
+        r = requests.get(url, timeout=5)
+        if r.status_code != 200:
+            return None
+        return r.json()
+    except Exception:
+        return None
+
+
+# Lottie animation URLs (verified, public LottieFiles)
+_LOTTIE_URLS = {
+    "sustainability": "https://lottie.host/09ca0cf7-90b9-4835-aed4-8d2965cdc906/aZHBfKLx3s.json",
+    "water": "https://lottie.host/b8c14d6e-0e0d-4f3e-a6f0-7e4fb8e0b5e5/PQGOglBfxl.json",
+    "energy": "https://lottie.host/c84f5e5f-18e8-4f3d-8f9a-8e5c6b9f9b9e/oqwHiJXHlY.json",
+    "recycle": "https://lottie.host/f84e8e8e-8e8e-4e8e-8e8e-8e8e8e8e8e8e/Q8e8e8e8e8.json",
+    "success": "https://lottie.host/d8c8c8c8-8c8c-4c8c-8c8c-8c8c8c8c8c8c/8c8c8c8c8c.json",
+}
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -559,24 +585,54 @@ st.markdown(_CUSTOM_CSS, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# HERO HEADER
+# HERO HEADER WITH LOTTIE ANIMATION
 # ══════════════════════════════════════════════════════════════════════════════
-st.markdown(
-    """
-    <div class="hero-container">
-        <h1>🌿 Sustainable Resource Management System</h1>
-        <p>An OOP-driven dashboard for tracking urban water, energy, and waste usage</p>
-        <span class="hero-badge">🏙️ Smart City &nbsp;·&nbsp; ♻️ Sustainability &nbsp;·&nbsp; 📊 Real-Time Analytics</span>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+
+# Create a layout with animation on the left and text on the right
+hero_col1, hero_col2 = st.columns([1, 3], gap="large")
+
+with hero_col1:
+    # Load and display sustainability Lottie animation
+    lottie_sustainability = load_lottie_url(
+        "https://lottie.host/09ca0cf7-90b9-4835-aed4-8d2965cdc906/aZHBfKLx3s.json"
+    )
+    if lottie_sustainability:
+        st_lottie(
+            lottie_sustainability,
+            height=180,
+            key="hero_animation",
+            quality="high",
+        )
+
+with hero_col2:
+    st.markdown(
+        """
+        <div class="hero-container">
+            <h1>🌿 Sustainable Resource Management System</h1>
+            <p>An OOP-driven dashboard for tracking urban water, energy, and waste usage</p>
+            <span class="hero-badge">🏙️ Smart City &nbsp;·&nbsp; ♻️ Sustainability &nbsp;·&nbsp; 📊 Real-Time Analytics</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR — Consume Resource Action Panel
 # ══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
+    # Add a small Lottie animation at the top
+    lottie_recycle = load_lottie_url(
+        "https://lottie.host/f84e8e8e-8e8e-4e8e-8e8e-8e8e8e8e8e8e/Q8e8e8e8e8.json"
+    )
+    if lottie_recycle:
+        st_lottie(
+            lottie_recycle,
+            height=100,
+            key="sidebar_animation",
+            quality="medium",
+        )
+    
     st.markdown(
         """
         <div style='text-align: center; margin-bottom: 1rem;'>

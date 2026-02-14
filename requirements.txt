@@ -1,0 +1,17 @@
+# Sustainable Resource Management System - Requirements
+# Python 3.9+
+
+# Web Framework
+streamlit>=1.30.0
+
+# Lottie Animations
+streamlit-lottie>=0.0.5
+
+# HTTP Requests (for loading Lottie animations from URLs)
+requests>=2.31.0
+
+# Optional: Development Tools (uncomment if needed)
+# pytest>=7.4.0
+# black>=23.0.0
+# flake8>=6.0.0
+# mypy>=1.0.0
